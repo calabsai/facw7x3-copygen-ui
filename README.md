@@ -19,4 +19,4 @@ You can also send build to gcloud container registry using GCloud console. Chang
 ```
 gcloud builds submit --tag gcr.io/PROJECT_ID/REPO_NAME
 ```
-Then you can either deploy using `CLI` or `Console`
+Then you can either deploy using `CLI` or `Console`.
