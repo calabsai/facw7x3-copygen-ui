@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // Import useEffect
 import ReactLoading from 'react-loading';
+import Lottie from 'lottie-react';
 import {
   TextField,
   Button,
@@ -17,10 +18,18 @@ import {
 
 function App() {
   const [generatedText, setGeneratedText] = useState('');
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showForm, setShowForm] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [animationData, setAnimationData] = useState(null);
+  useEffect(() => {
+    fetch('https://assets5.lottiefiles.com/packages/lf20_uwR49r.json')
+      .then((response) => response.json())
+      .then((data) => setAnimationData(data))
+      .catch((error) => console.error('Error fetching Lottie animation:', error));
+  }, []); // Empty dependency array to run only once on mount
 
-// Define an array of animation types
+  // Define an array of animation types
 const animationTypes = ['spin', 'bubbles', 'cylon', 'bars'];
 
 // Function to randomly select an animation type
@@ -31,9 +40,10 @@ const getRandomAnimationType = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
     setError(null);
     setGeneratedText('');
+    setShowForm(false); // Hide the form and headline
+    setLoading(true);
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
     console.log('Collected form data:', data);
@@ -42,7 +52,8 @@ const getRandomAnimationType = () => {
     data['selectedTemplate'] = selectedTemplate;
     data['languageModel'] = selectedLanguageModel;
     try {
-      const response = await fetch('https://backend-api-acn7yotvaa-uc.a.run.app/generate', {
+      // const response = await fetch('https://backend-api-acn7yotvaa-uc.a.run.app/generate', {
+        const response = await fetch('http://127.0.0.1:8080/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -69,6 +80,10 @@ const getRandomAnimationType = () => {
 
   return (
     <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+{showForm && (
+  <>
+
+
       <Typography variant="h3" align="center" gutterBottom sx={{ fontWeight: 'bold', fontFamily: 'Poppins, sans-serif', fontSize: '3.2rem' }}>
 
 Write Killer Ad Copy in 60 Seconds with AI.
@@ -93,13 +108,19 @@ Write Killer Ad Copy in 60 Seconds with AI.
 </FormControl>
 <Grid container spacing={2} direction="column">
 <Grid item>
-<TextField label="What is your target market?" name="targetMarket" fullWidth placeholder="e.g., Overweight women over 45; Busy working professionals; Parents with young children" InputProps={{ style: { fontSize: 12 } }} />
+<TextField label="What is your target market?" name="targetMarket" fullWidth placeholder="e.g., Overweight women over 45; Busy working professionals; Parents with young children" multiline
+
+sx={{ '& textarea::placeholder': { fontSize: 12 } }} />
 </Grid>
 <Grid item>
-<TextField label="What problem are you aiming to solve?" name="problemToSolve" fullWidth placeholder="e.g., Helping women melt stubborn fat; Assisting professionals in managing stress" InputProps={{ style: { fontSize: 12 } }} />
+<TextField label="What problem are you aiming to solve?" name="problemToSolve" fullWidth placeholder="e.g., Helping women melt stubborn fat; Assisting professionals in managing stress" multiline
+
+sx={{ '& textarea::placeholder': { fontSize: 12 } }} />
 </Grid>
 <Grid item>
-<TextField label="What are some common but disliked solutions?" name="dislikedSolutions" fullWidth placeholder="e.g., Keto, cardio, restrictive dieting; Meditation apps, long vacations" InputProps={{ style: { fontSize: 12 } }} />
+<TextField label="What are some common but disliked solutions?" name="dislikedSolutions" fullWidth placeholder="e.g., Keto, cardio, restrictive dieting; Meditation apps, long vacations" multiline
+
+sx={{ '& textarea::placeholder': { fontSize: 12 } }} />
 </Grid>
 <Grid item>
 <TextField label="Can you describe your unique solution?" name="uniqueSolution" fullWidth placeholder="e.g., A Caribbean tropical cocktail that melts stubborn fat; A 10-minute stress relief program; Kid-friendly nutritious meal plans"
@@ -150,6 +171,29 @@ sx={{ '& textarea::placeholder': { fontSize: 12 } }}
 </Grid>
 </Grid>
 </form>
+</>
+
+)}
+{loading && animationData && (
+  <div
+    style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column',
+      position: 'absolute', // Add this line
+      top: '50%', // Add this line
+      left: '50%', // Add this line
+      transform: 'translate(-50%, -50%)', // Add this line
+    }}
+  >
+    <Lottie animationData={animationData} loop={true} />
+    <Typography variant="h6" align="center" gutterBottom>
+      Loading...
+    </Typography>
+  </div>
+)}
+
 {error && (
 <Typography variant="body1" align="center" color="error" gutterBottom>
 {error}
@@ -163,8 +207,24 @@ Generated Text:
 <Typography variant="body1" align="center">
 {generatedText}
 </Typography>
+<Button
+      variant="contained"
+      color="primary"
+      onClick={() => setShowForm(true)}
+      sx={{
+        fontSize: '24px',
+        padding: '16px',
+        height: '60px',
+        background: 'linear-gradient(90deg, #6C3483 25%, #D7BDE2 50%, #6C3483 75%)',
+        backgroundSize: '200% 100%',
+        marginLeft: '16px', // Add margin to place the button to the side of the generated copy
+      }}
+    >
+      Back
+    </Button>
 </div>
 )}
+
 </Container>
 );
 }
