@@ -1,6 +1,6 @@
 ## COPYGEN Frontend App
 
-This app is built using ReactJS. You can specify backend in `app.js`, if you want to change. All major modules are in `src` directory.
+This app is built using ReactJS. You can specify backend in `src/App.js`, if you want to change. All major modules are in `src` directory.
 
 ### Run Locally
 ```
@@ -11,7 +11,7 @@ npm start
 Using docker makes it easier to run API on any environment
 ```
 docker build -t copygen-app .
-docker run -p 80:80 copygen-api
+docker run -p 80:80 copygen-app
 ```
 
 ### Deploy to GCloud
