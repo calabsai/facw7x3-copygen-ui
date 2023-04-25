@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'; // Import useEffect
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import ReactLoading from 'react-loading';
 import Lottie from 'lottie-react';
+import { Typewriter } from 'react-simple-typewriter';
 import {
   TextField,
   Button,
@@ -21,13 +22,87 @@ function App() {
   const [error, setError] = useState(null);
   const [showForm, setShowForm] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [animationData, setAnimationData] = useState(null);
-  useEffect(() => {
-    fetch('https://assets5.lottiefiles.com/packages/lf20_uwR49r.json')
+  const [selectedAnimation, setSelectedAnimation] = useState(null); // New state variable for selected animation
+  const [animationData, setAnimationData] = useState(null); // Define state variable for animation data
+  
+  // Define an array of externally hosted Lottie animations
+  const lottieAnimations = [
+  'https://assets5.lottiefiles.com/packages/lf20_uwR49r.json',
+  'https://lottie.host/241ba9a1-bb9d-49a3-92db-43a422936e25/olp98lVcPc.json',
+  'https://assets5.lottiefiles.com/datafiles/nT4vnUFY9yay7QI/data.json',
+  'https://assets3.lottiefiles.com/packages/lf20_x62chJ.json',
+  'https://assets1.lottiefiles.com/datafiles/bEYvzB8QfV3EM9a/data.json',
+  'https://assets2.lottiefiles.com/packages/lf20_0pivjQFVZl.json',
+  'https://assets2.lottiefiles.com/packages/lf20_C67qsN3hAk.json',
+  'https://assets2.lottiefiles.com/packages/lf20_AC7l57omdL.json',
+  'https://assets5.lottiefiles.com/packages/lf20_LkDPTg5jar.json',
+  'https://assets2.lottiefiles.com/packages/lf20_5lTxAupekw.json',
+  'https://assets10.lottiefiles.com/datafiles/qm9uaAEoe13l3eQ/data.json',
+  'https://assets2.lottiefiles.com/datafiles/bNwYPnjv3OdFA5w/data.json',
+  'https://assets6.lottiefiles.com/packages/lf20_p8bfn5to.json',
+  'https://assets1.lottiefiles.com/packages/lf20_usmfx6bp.json',
+  'https://assets4.lottiefiles.com/datafiles/67bae0ddb57b26679d10e9ce7c1d445f/data.json',
+  'https://assets2.lottiefiles.com/datafiles/wOw9bxX1twk6Q1a/data.json',
+  'https://assets10.lottiefiles.com/packages/lf20_a2chheio.json',
+  'https://assets6.lottiefiles.com/datafiles/cb81834f3b75c3d2aba9d8a58ad1f408/AE_JSON/loader1.json',
+  'https://assets4.lottiefiles.com/datafiles/WKqC5QWz9GiZnlm/data.json',
+  'https://assets2.lottiefiles.com/datafiles/OisWNdtMtC7TR1b/data.json',
+  'https://assets10.lottiefiles.com/datafiles/kRbrlEbvgAezJ8q/data.json',
+  'https://assets6.lottiefiles.com/packages/lf20_b88nh30c.json',
+  'https://assets10.lottiefiles.com/datafiles/lMHl0obBNN9kCUE/data.json',
+  'https://assets7.lottiefiles.com/datafiles/40aX5db74VvGPWw/data.json',
+  'https://assets10.lottiefiles.com/datafiles/Qmze6foNYQLQGCK/data.json',
+  'https://assets1.lottiefiles.com/datafiles/rFr1le9E8lhiQjf/data.json',
+  'https://assets4.lottiefiles.com/datafiles/aba45c7b75d547282b2dbdc97969412b/progress_bar.json',
+  'https://assets9.lottiefiles.com/datafiles/ogIQ10UnwnKiBZS/data.json',
+  'https://assets5.lottiefiles.com/packages/lf20_tr1pjkop.json',
+  'https://assets7.lottiefiles.com/packages/lf20_IJpMIV0zMj.json',
+  'https://assets3.lottiefiles.com/packages/lf20_mv7XEWVcaw.json',
+  'https://assets1.lottiefiles.com/packages/lf20_nPrVk1FN5v.json',
+  'https://assets2.lottiefiles.com/packages/lf20_SUCORZjSjz.json',
+  'https://assets5.lottiefiles.com/packages/lf20_64mLhNnlBg.json',
+  'https://assets6.lottiefiles.com/packages/lf20_h6sknf55.json',
+];
+
+const messages = useMemo(() => [
+  "📚 Copywriting 101: Always keep 'em guessing. Just like this loading screen—what's it gonna do next?!",
+  "🎩 Doffing my hat to the greats—Ogilvy, Halbert, and Schwartz. They taught me everything I know, except how to load faster.",
+  "🎯 Aiming for a bullseye in copywriting. If I miss, we'll just call it 'strategic testing.'",
+  "🎲 Rolling the dice on creativity. Hoping for a natural 20, but I'll settle for not crashing the software.",
+  "🛸 Abducting ideas from the creative cosmos. They're out of this world, and they promise not to probe.",
+  "🤔 Writer's block? Never fear! I've got a secret weapon: caffeine and a looming deadline.",
+  "🦉 Channeling the wisdom of ancient copywriters. They wrote on stone tablets, but their CTAs still rock!",
+  "🥊 In the red corner, it's the dreaded blank page. In the blue corner, it's me, the heavyweight champion of words!",
+  "🔮 Gazing into the crystal ball of marketing trends. It says the future is bright—and full of upsells.",
+  "📚 Studying the copywriting greats. They say imitation is the sincerest form of flattery, so, uh, thanks for the swipe file!",
+  "🧪 Mixing up a marketing elixir that'll cure your conversion woes. Side effects may include wild success and a sudden urge to high-five.",
+  "🕵️‍♂️ On a covert mission to swipe the best headlines. Don't worry, we'll leave no trace—just a trail of jaw-dropping copy.",
+  "🎤 Dropping punchlines like a stand-up comic, but for copywriting. Get ready to laugh all the way to the bank!",
+  "🦹‍♂️ Unleashing my copywriting superpowers. With great persuasion comes great responsibility—and killer results.",
+  "🎉 Throwing a copywriting fiesta, and you're invited! Grab your maracas, and let's dance to the rhythm of rising revenue.",
+  "🧞‍♂️ Your wish is my command, oh marketing master. Three wishes? Nah, just one—to craft copy that converts like magic!",
+  "🤖 Activating copywriting robot mode. Beep boop, converting humans to customers. Don't worry, I come in peace... and profits!",
+  
+  // You can access individual messages using the array index, e.g., loadingMessages[0] for the first message.
+  
+], []);
+
+  // Wrap the definition of selectRandomMessage in useCallback
+  const selectRandomMessage = useCallback(() => {
+    const randomIndex = Math.floor(Math.random() * messages.length);
+    setAnimatedMessage(messages[randomIndex]);
+  }, [messages]);
+  
+useEffect(() => {
+  if (selectedAnimation) {
+    fetch(selectedAnimation)
       .then((response) => response.json())
       .then((data) => setAnimationData(data))
       .catch((error) => console.error('Error fetching Lottie animation:', error));
-  }, []); // Empty dependency array to run only once on mount
+  }
+}, [selectedAnimation]);
+
+
 
   // Define an array of animation types
 const animationTypes = ['spin', 'bubbles', 'cylon', 'bars'];
@@ -38,12 +113,31 @@ const getRandomAnimationType = () => {
   return animationTypes[randomIndex];
 };
 
+// const getRandomMessage = () => {
+//  const randomIndex = Math.floor(Math.random() * messages.length);
+//  return messages[randomIndex];
+// };
+
+// const [animatedMessage, setAnimatedMessage] = useState(getRandomMessage());
+
+const [animatedMessage, setAnimatedMessage] = useState('');
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError(null);
     setGeneratedText('');
     setShowForm(false); // Hide the form and headline
     setLoading(true);
+    selectRandomMessage(); // Call the function to select a random message
+    setLoading(true);
+  
+      // Randomly select a Lottie animation from the array
+    const randomIndex = Math.floor(Math.random() * lottieAnimations.length);
+    const selectedAnimation = lottieAnimations[randomIndex];
+
+      // Set the selected animation URL to the state variable
+    setSelectedAnimation(selectedAnimation);
+
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
     console.log('Collected form data:', data);
@@ -52,7 +146,8 @@ const getRandomAnimationType = () => {
     data['selectedTemplate'] = selectedTemplate;
     data['languageModel'] = selectedLanguageModel;
     try {
-        const response = await fetch('https://backend-api-acn7yotvaa-uc.a.run.app/generate', {
+        // const response = await fetch('https://backend-api-acn7yotvaa-uc.a.run.app/generate', {
+        const response = await fetch('http://127.0.0.1:8080/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -77,12 +172,23 @@ const getRandomAnimationType = () => {
     }
   };
 
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+
+  // Update the animatedMessage based on the current message index
+useEffect(() => {
+  setAnimatedMessage(messages[currentMessageIndex]);
+}, [currentMessageIndex, messages]);
+
+const handleDone = useCallback(() => {
+    const nextIndex = (currentMessageIndex + 1) % messages.length;
+    setCurrentMessageIndex(nextIndex);
+    setAnimatedMessage(messages[nextIndex]);
+  }, [currentMessageIndex, messages]);
+  
   return (
     <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
 {showForm && (
   <>
-
-
       <Typography variant="h3" align="center" gutterBottom sx={{ fontWeight: 'bold', fontFamily: 'Poppins, sans-serif', fontSize: '3.2rem' }}>
 
 Write Killer Ad Copy in 60 Seconds with AI.
@@ -97,7 +203,7 @@ Write Killer Ad Copy in 60 Seconds with AI.
 </RadioGroup>
 </FormControl>
 </center>
-<FormControl variant="outlined" sx={{ marginBottom: 2, minWidth: 550, '& .MuiSelect-select': { color: '#FD7E14', backgroundColor: '#E6F9E6' } }}>
+<FormControl variant="outlined" sx={{ marginBottom: 2, width: '100%', '& .MuiSelect-select': { color: '#FD7E14', backgroundColor: '#E6F9E6' } }}>
 <InputLabel>Type of Copy</InputLabel>
 <Select defaultValue="" label="Type of Copy" name="selectedTemplate">
 <MenuItem value="email-template-1">Outcome-Focused Unique Solution Email Template 1</MenuItem>
@@ -173,23 +279,49 @@ sx={{ '& textarea::placeholder': { fontSize: 12 } }}
 </>
 
 )}
-{loading && animationData && (
+{loading && selectedAnimation && (
   <div
     style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column',
-      position: 'absolute', // Add this line
-      top: '50%', // Add this line
-      left: '50%', // Add this line
-      transform: 'translate(-50%, -50%)', // Add this line
+      backgroundColor: 'rgba(255, 255, 255, 0.5)',
     }}
   >
-    <Lottie animationData={animationData} loop={true} />
-    <Typography variant="h6" align="center" gutterBottom>
-      Loading...
+     <Typography
+      variant="h6"
+      align="center"
+      gutterBottom
+      sx={{        
+          fontFamily: 'Raleway, sans-serif',
+          fontSize: '22px',
+          color: '#8B4513',
+      }}
+    >
+    <Typewriter
+        words={[animatedMessage]}
+        loop={false}
+        cursor
+        cursorStyle="_"
+        typeSpeed={100}
+        deleteSpeed={0}
+        delaySpeed={6000}
+        onDone={handleDone}
+      />
     </Typography>
+    <Lottie
+      animationData={animationData}
+      loop={true}
+      autoPlay={true}
+      style={{ width: '90%', height: '90%' }}
+    />
+   
   </div>
 )}
 
