@@ -82,6 +82,10 @@ const messages = useMemo(() => [
   "🎉 Throwing a copywriting fiesta, and you're invited! Grab your maracas, and let's dance to the rhythm of rising revenue.",
   "🧞‍♂️ Your wish is my command, oh marketing master. Three wishes? Nah, just one—to craft copy that converts like magic!",
   "🤖 Activating copywriting robot mode. Beep boop, converting humans to customers. Don't worry, I come in peace... and profits!",
+  "🕶️ Channeling my inner Hemingway, sans the beard and the booze. Don't worry, I'll leave out the existential angst. But if this copy doesn't convert, I'm moving to Key West and opening a daiquiri bar. Hemingway style, baby! Minus the cats. Maybe.",
+  "🦉 Summoning the wise old wordsmiths. They're old-school, but they've got game. We're talking Claude Hopkins, John Caples, and the whole Mad Men crew. Who needs digital marketing when you've got these legends on speed dial? Dial-up, that is.",
+  "🥊 Going toe-to-toe with the muse. It's a creative showdown for the ages. In this corner, we have the reigning champ, the wordsmith wonder, the sultan of syntax! And in the other corner, the muse--wait, where'd she go? Muses, am I right? So fickle!", 
+  "🧙‍♂️ Channeling the spirit of Robert Collier. He's telling me the letter is still going strong. Who am I to argue with a legend? Let's pen a sales letter for the ages, one that'll make even the greats tip their hats. Abracadabra, let's write!",
   
   // You can access individual messages using the array index, e.g., loadingMessages[0] for the first message.
   
