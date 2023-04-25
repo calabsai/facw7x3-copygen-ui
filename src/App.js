@@ -100,9 +100,9 @@ Write Killer Ad Copy in 60 Seconds with AI.
 <FormControl variant="outlined" sx={{ marginBottom: 2, minWidth: 550, '& .MuiSelect-select': { color: '#FD7E14', backgroundColor: '#E6F9E6' } }}>
 <InputLabel>Type of Copy</InputLabel>
 <Select defaultValue="" label="Type of Copy" name="selectedTemplate">
-<MenuItem value="email-template-1">Email Template 1</MenuItem>
-<MenuItem value="email-template-2">Email Template 2</MenuItem>
-<MenuItem value="email-template-3">Email Template 3</MenuItem>
+<MenuItem value="email-template-1">Outcome-Focused Unique Solution Email Template 1</MenuItem>
+<MenuItem value="email-template-2">Emotional Impact Solution Email Template 2</MenuItem>
+<MenuItem value="email-template-3">Niche Expertise Myth-Busting Email Template 3</MenuItem>
 </Select>
 </FormControl>
 <Grid container spacing={2} direction="column">
