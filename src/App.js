@@ -199,17 +199,27 @@ const handleDone = useCallback(() => {
   }, [currentMessageIndex, messages]);
   
   return (
-    <Container maxWidth="sm" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+    <Container maxWidth="md" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
       <div>
 {showForm && (
   <>
    <Typography
-          variant="h3"
-          align="center"
-          gutterBottom
-          sx={{ fontWeight: 'bold', fontFamily: 'Poppins, sans-serif', fontSize: '2.6rem' }}
-          className={!showHeadline ? 'headline-fade-out' : ''}>
-Write Killer Ad Copy in 60 Seconds with AI.
+  variant="h3"
+  align="center"
+  gutterBottom
+  sx={{ fontWeight: 'bold', fontFamily: 'Poppins, sans-serif', fontSize: '2.3rem' }}
+  className={!showHeadline ? 'headline-fade-out' : ''}
+>
+Meet the Free Ad Copy Generator: an AI that will write better ads than your entire marketing team
+</Typography>
+<Typography
+  variant="body1" // Use a different variant for the paragraph text
+  align="center"
+  gutterBottom
+  sx={{ fontFamily: 'Poppins, sans-serif', fontSize: '1.1rem' }} // Adjust the font size and other styles as needed
+  className={!showHeadline ? 'headline-fade-out' : ''}
+>
+  Artificial intelligence fine-tuned with over $1BN in copywriting experience built by some of the world's highest paid direct-response copywriters in the game.
 </Typography>
 <form
   noValidate
