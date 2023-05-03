@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lottie Animations</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.14/lottie.min.js"></script>
+  <style>
+    .lottie-container {
+      width: 100px;
+      height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Create containers for the animations -->
+  <div id="animations-container"></div>
+
+  <script>
+    // Array of animation URLs
+    const animationUrls = [
+    'https://assets1.lottiefiles.com/private_files/lf30_rg5wrsf4.json',
+    'https://assets6.lottiefiles.com/packages/lf20_DVSwGQ.json',
+    'https://assets5.lottiefiles.com/packages/lf20_uwR49r.json',
+    'https://assets5.lottiefiles.com/datafiles/nT4vnUFY9yay7QI/data.json',
+    'https://assets1.lottiefiles.com/datafiles/bEYvzB8QfV3EM9a/data.json',
+    'https://assets2.lottiefiles.com/packages/lf20_0pivjQFVZl.json',
+    'https://assets5.lottiefiles.com/packages/lf20_LkDPTg5jar.json',
+    'https://assets10.lottiefiles.com/datafiles/qm9uaAEoe13l3eQ/data.json',
+    'https://assets2.lottiefiles.com/datafiles/bNwYPnjv3OdFA5w/data.json',
+    'https://assets6.lottiefiles.com/packages/lf20_p8bfn5to.json',
+    'https://assets1.lottiefiles.com/packages/lf20_usmfx6bp.json',
+    'https://assets4.lottiefiles.com/datafiles/67bae0ddb57b26679d10e9ce7c1d445f/data.json',
+    'https://assets2.lottiefiles.com/datafiles/wOw9bxX1twk6Q1a/data.json',
+    'https://assets10.lottiefiles.com/packages/lf20_a2chheio.json',
+    'https://assets6.lottiefiles.com/datafiles/cb81834f3b75c3d2aba9d8a58ad1f408/AE_JSON/loader1.json',
+    'https://assets4.lottiefiles.com/datafiles/WKqC5QWz9GiZnlm/data.json',
+    'https://assets10.lottiefiles.com/datafiles/kRbrlEbvgAezJ8q/data.json',
+    'https://assets6.lottiefiles.com/packages/lf20_b88nh30c.json',
+    'https://assets10.lottiefiles.com/datafiles/lMHl0obBNN9kCUE/data.json',    
+    'https://assets1.lottiefiles.com/datafiles/rFr1le9E8lhiQjf/data.json',
+    'https://assets4.lottiefiles.com/datafiles/aba45c7b75d547282b2dbdc97969412b/progress_bar.json',
+    'https://assets2.lottiefiles.com/packages/lf20_SUCORZjSjz.json',
+    ];
+
+        // Create wrappers, numbers, and containers for each animation
+        const animationsContainer = document.getElementById('animations-container');
+    animationUrls.forEach((url, index) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'lottie-wrapper';
+      
+      const number = document.createElement('span');
+      number.className = 'lottie-number';
+      number.textContent = index + 1;
+      wrapper.appendChild(number);
+      
+      const container = document.createElement('div');
+      container.id = `lottie-container-${index + 1}`;
+      container.className = 'lottie-container';
+      wrapper.appendChild(container);
+      
+      animationsContainer.appendChild(wrapper);
+    });
+
+    // Load and play each animation
+    animationUrls.forEach((url, index) => {
+      const containerId = `lottie-container-${index + 1}`;
+      const container = document.getElementById(containerId);
+      if (container) {
+        lottie.loadAnimation({
+          container: container,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: url
+        });
+      }
+    });
+  </script>
+</body>
+</html>

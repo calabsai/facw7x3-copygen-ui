@@ -36,3 +36,157 @@
     transform: rotate(360deg);
   }
 }
+
+/* Fade transition */
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+/* Slide transition */
+.slide-enter {
+  transform: translateY(-100%);
+}
+.slide-enter-active {
+  transform: translateY(0);
+  transition: transform 300ms;
+}
+.slide-exit {
+  transform: translateY(0);
+}
+.slide-exit-active {
+  transform: translateY(-100%);
+  transition: transform 300ms;
+}
+
+/* Zoom transition */
+.zoom-enter {
+  transform: scale(1);
+}
+.zoom-enter-active {
+  transform: scale(0);
+  transition: transform 1000ms; /* Increase duration to 1000ms */
+}
+.zoom-exit {
+  transform: scale(0);
+}
+.zoom-exit-active {
+  transform: scale(1);
+  transition: transform 1000ms; /* Increase duration to 1000ms */
+}
+
+/* Flip transition */
+.flip-enter {
+  transform: rotateY(0deg);
+}
+.flip-enter-active {
+  transform: rotateY(180deg);
+  transition: transform 300ms;
+}
+.flip-exit {
+  transform: rotateY(180deg);
+}
+.flip-exit-active {
+  transform: rotateY(0deg);
+  transition: transform 300ms;
+}
+
+/* Rotate transition */
+.rotate-enter {
+  transform: rotate(0deg);
+}
+.rotate-enter-active {
+  transform: rotate(360deg);
+  transition: transform 300ms;
+}
+.rotate-exit {
+  transform: rotate(360deg);
+}
+.rotate-exit-active {
+  transform: rotate(0deg);
+  transition: transform 300ms;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 1); /* Semi-transparent white background */
+  z-index: 1; /* Ensure the overlay is above the form */
+}
+.form-loading {
+  background-color: rgba(255, 255, 255, 1); /* Nearly transparent white */
+}
+.headline-fade-out {
+  opacity: 0; /* Adjust this value to control the fade strength */
+  transition: opacity 2s ease-in-out; /* Transition effect for smooth fading */
+}
+.button-fade-out {
+  animation: fadeOut 1s ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(128, 128, 128, 0.9); /* Darker gray with 90% opacity */
+  transition: opacity 10s ease-in-out; /* Transition for smooth fading effect */
+  z-index: 999; /* Ensure the overlay is above other elements */
+}
+
+.fade-in {
+  animation: fadeIn 5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 0.5; }
+}
+
+.slide-in-left {
+  animation: slideInLeft 10s ease-in-out forwards;
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.scale-up {
+  animation: scaleUp 10s ease-in-out forwards;
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+.social-sharing-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
+  font-size: 24px; /* Increase the size of the buttons */
+}
