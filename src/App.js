@@ -145,15 +145,9 @@ const handleSubmit = async (event) => {
   data['selectedTemplate'] = selectedTemplate;
   data['languageModel'] = selectedLanguageModel;
   try {
-    // Get the port number from the environment variable or use a default value
-     const port = process.env.PORT || 8080;
-
-    // Use the port number in the API URL
-     const apiUrl = port === 8080 ? 'http://127.0.0.1:8080/generate' : `https://api.freeadcopy.xyz/generate`;
-    // const apiUrl = 'https://backend-api-acn7yotvaa-uc.a.run.app/generate';
-
-     const response = await fetch(apiUrl, {
-    // const response = await fetch('https://backend-api-acn7yotvaa-uc.a.run.app/generate', { // Production
+    
+    // const response = await fetch('https://backend-api-acn7yotvaa-uc.a.run.app/generate', { // Production v1
+     const response = await fetch('https://api.freeadcopy.xyz/generate', { // Production v2 (Mapped domain)
     // const response = await fetch('http://127.0.0.1:8080/generate', { // Local testing
 
       method: 'POST',
